@@ -1,0 +1,78 @@
+Deli: includes Price_list.h, Cart.h, Scale.h, Product.h
+Attributes: amount of roast beef, amount of pastrami, amount of salami, amount of pickles, amount of black olives, amount of green olives, array of ten customers  
+Methods: Deli(float, float, float, float, float), customer_arrival(), serve_customer(int), check_out(int), report(), new_day(), change_prices(), view_prices(), get_availability(int) 
+Deli(float, float, float, float, float, float): This method sets all the Products in the product_sold array equal to a product sold in the deli and a weight that is passed into the deli as a parameter. The default weights are all 0. The prices of each Product are automatically set to $1. Then the customers in the customer_array have all the availabilities set to 1. Their ids are set to the number in the array that they are. The cart objects in each customer are instantiated.
+
+customer_arrival(): A while loop is created that can have up to ten customers enter the deli. The possible ids for each customer are 0-9 and a smaller while loop checks the availability of each id. When the first available id is reached, the smaller while loop exists. If the first available id reached is 10, that means there are already 10 customers in the deli, and the program prints out that no more customers can be added. Otherwise, a customer gets the available id, and the availability of the customer's id is changed to 0 to sho that it is not available. The method prints out that a customer with that id has arrived. The larger while loop continues as long as the user wants more customers to enter the deli and there are available ids.
+
+serve_customer(int): This method prints out a menu that allows the user to decide to print an invoice, add something to the cart, check out, or return to the main menu. The input that the user chooses is stored into the variable choice. If choice is 1, then the Cart method print_invoice is called for the customer with the id in the parameter. If choice is 2, then a while loop starts. While the user keeps selecting y, they can keep adding products into the cart. The user enters the name and weight of the product they want to add to the cart, and then select whether or not they want to add it to the cart. It uses the Cart methods select_product and add_to_cart for the customer with the id in the parameter, as well as the Scale methods add.weight and subtract_weight and the Price_list method get_price. If choice is 3, then the Deli method check_out is called. If choice is 4, then nothing happens.
+
+check_out(int): This method first prints out an invoice runs through all the products in the cart using the Cart method check_out. It adds the weight of each product in the cart to the total weight of products sold in the deli, and adds the total cost of each product to the total revenue of each product sold in the deli.
+
+report(): This method runs through each product in the product_sold array and prints out the total weight of all products sold and the total revenue of all products sold. 
+
+new_day(): This method sets the total product sold equal to 0 for all products.
+
+change_prices(): This method uses the Price_list method set_price to set a new price for a product that the user enters. The user also enters the new price they want the price to be set to. A while loop allows the user to do this until they have set all the prices they want. 
+
+view_prices(): This method uses the Price_list method print_price to print out all the prices.
+
+get_availability(int): This method gets the availability of an id by checking if a customer in the array is using that id.  
+
+Cart: includes Product.h
+Attributes: creates struct of products, *Queue_head product, empty string s1, and *new_product product
+Methods: Cart(), select_product(string, float, float), add_to_cart(string, float, float), print_invoice(), check_out(double, double, double), get_Queue_head()
+Cart(): The constructor sets the Queue_head of each cart equal to null. Queue_head is a pointer to the first element in the cart.
+
+select_product(string, float, float): Memory is allocated for the new_product product and the pointer pproduct, which is a Product, is created. Then the price, weight, and name of pproduct are set using the parameters.
+
+add_to_cart(string, float, float): The new_product is created using select_product. Then if Queue_head is null, it is set to point to new_product. Otherwise, a pointer qproduct runs through the queue until it reaches the end. Then it sets new_product to be the product at the end of the queue.
+
+print_invoice(): If Queue_head points to NULL, then the method prints out that there are no products in the cart. Otherwise, qproduct is set to point to the product that Queue_head points to. Then qproduct runs through the queue and prints out the name of the Product, its weight, its price, and its cost. At the end, the total cost of all the Products is printed out.
+
+check_out(float, float, int): If Queue_head points to NULL, then the method prints out that the cart is empty and returns 0. Otherwise, the parameters are set equal to the weight and price of the product that Queue_head points to, while the int id parameter is set equal to an id that corresponds to a certain product name. Then temp is set equal to Queue_head, Queue_head becomes Queue_head->next, the Product in temp is deleted, and the memory allocated to temp is freed. 1 is returned.
+
+get_Queue_head(): This returns the product *Queue_head.
+
+Price_List:
+Attributes: price of roast beef, price of pastrami, price of salami, price of pickles, price of black olives, price of green olives, all in array of Products
+Methods: Price_list(), set_price(string, float), get_price(string), print_price()
+Price_list(): This initializes the Products in the price_array. Each one is given the name of a product in the deli. Their weights are unimportant and are set to 0. Their default prices are $1.
+
+set_price(string, float): This method takes in the name of the product whose price should be changed as a parameter, and runs through the names of the Products in the price_array until it finds one with a matching name. Then it sets the price of that product equal to the price taken in as a parameter. Otherwise, the for loop ends and "Invalid Product" is printed out.
+
+get_price(string): This runs through the names of the Products in the price_array until it reaches one that is the same as the parameter. Then it returns the price associated with that Product name.
+
+print_price(): This runs through all the Products in the price_array and prints out their names and prices.
+
+Scale:
+Attribute: weight
+Methods: Scale(float), add_weight(float), subtract_weight(float), get_weight(), zero_weight()
+Scale(float): This sets the weight attribute equal to the parameter.
+
+add_weight(float): While the weight attribute is less than the weight in the parameter, weight is added to the weight attribute in .5 pound increments.
+
+subtract_weight(float): While the weight attribute is greater than the weight in the parameter, weight is subtracted from the weight attribute in .5 pound increments.
+
+get_weight(): The weight is returned.
+
+zero_weight(): weight is set equal to 0.
+
+Product:
+Attributes: weight, price, product_name
+Methods: Product(string, float, float), get_weight(), get_price(), get_product_name(), set_name(string), set_price(float), set_weight(float), get_product_id()
+Product(string, float, float): This creates a Product with product_name equal to a parameter, weight equal to the second parameter, and price equal to the third parameter.
+
+get_weight(): This returns the weight attribute.
+
+get_price(): This returns the price attribute.
+
+get_product_name(): This returns the product_name attribute.
+
+set_name(string): This sets product_name equal to the string parameter.
+
+set_price(float): This sets price equal to the parameter.
+
+set_weight(float): This sets weight equal to the parameter. 
+
+get_product_id(): This sets the name of a product equal to a number. 
